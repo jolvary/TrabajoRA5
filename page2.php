@@ -50,13 +50,13 @@ session_start();
 
             echo '<br><br><br>','Si desea volver a iniciar sesión pulse el siguiente botón: ';
             
-            echo '<a href="login.php"><button>Login</button></a>';
+            echo '<a href="inicio.php"><button>Login</button></a>';
 
         }
         else {
             echo "Vuelva a iniciar sesión para acceder a esta página.";
 
-            echo '<a href="login.php"><button>Iniciar Sesión</button></a>';
+            echo '<a href="inicio.php"><button>Iniciar Sesión</button></a>';
         }
 
     ?>

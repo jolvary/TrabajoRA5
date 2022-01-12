@@ -1,9 +1,15 @@
 <?php
 
-use function PHPSTORM_META\type;
-
 include('config.php');
 session_start();
+
+?>
+
+<HTML>
+
+<h1> Bienvenido a la página de inicio. </h1>
+
+<?php
 
 $first = 0;
 $second = 1;
@@ -26,14 +32,10 @@ if (isset($_POST['login'])) {
     $sql = ("SELECT * FROM usuarios WHERE NomUsu='$usuario'");
     $result = $conn->query($sql);
     
+    while($row = $result->fetch_assoc()) {
 
-    if ($result) {
-        while($row = $result->fetch_assoc()) {
-
-            $pass = $row["contraseña"];
-            $usu = $row['idUsu'];
-        }
-
+        $pass = $row["contraseña"];
+        $usu = $row['idUsu'];
     }
 
     if ($result->num_rows==0) {
@@ -64,6 +66,39 @@ if (isset($_POST['login'])) {
 
 ?>
 
+<?php
+
+include('config.php');
+
+if (isset($_POST['registro'])) {
+
+    $usuario = $_POST['usuario'];
+    $password = $_POST['contraseña'];
+    $password_hash = password_hash($password, PASSWORD_BCRYPT);
+
+    $sql = ("SELECT * FROM usuarios WHERE NomUsu='$usuario'");
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        echo '<p>Este nombre de usuario ya ha sido registrado en el sistema.<p>';
+    }
+
+    if ($result->num_rows == 0) {
+        $sql = ("INSERT INTO usuarios(NomUsu,contraseña) VALUES ('$usuario','$password_hash')");
+        $result = $conn->query($sql);
+
+        if ($result) {
+            echo '<p class="success">Te has registrado correctamente.</p>';
+            $sql = ("UPDATE usuarios SET fechaCre = now() where NomUsu='$usuario'");
+            $result = $conn->query($sql);
+        } else {
+            echo '<p class="error">Algo salió mal.</p>';
+        }
+    }
+}
+
+?>
+
 <form method="post" action="" name="signin-form">
     <div class="form-element">
         <label>Usuario</label>
@@ -74,6 +109,7 @@ if (isset($_POST['login'])) {
         <input type="password" name="contraseña" required />
     </div>
     <button type="submit" name="login" value="login">Entrar</button>
+    <button type="submit" name="registro" value="register">Registrarse</button>
 </form>
 
-<button onclick="location.href='./inicio.php'">Registrarte</button>
+</HTML>

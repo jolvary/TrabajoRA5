@@ -20,6 +20,8 @@ for ($i=0;$i<80;$i++) {
 
     <?php
 
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+
         $usuario = $_SESSION['usuario'];
         $lenpass = strlen(trim($_SESSION['contraseña']));
 
@@ -32,7 +34,15 @@ for ($i=0;$i<80;$i++) {
             
                 while($row = $result->fetch_assoc()) {
 
-                    echo "El usuario ".$row["NomUsu"].", inició sesión por última vez el: </td><td>".$row["lastCon"]."</td></tr>";
+                    if ($row["fechaCre"] != null) {
+
+                        echo "El usuario ".$row["NomUsu"].", fue creado en la siguiente fecha : ".$row["fechaCre"]."<br><br>Su último inició sesión se realizó el: </td><td>".$row["lastCon"]."</td></tr>";
+
+                    } else {
+
+                        echo "El usuario ".$row["NomUsu"].", inició sesión por última vez el : </td><td>".$row["lastCon"]."</td></tr>";
+
+                    }
 
                 }
 
@@ -54,9 +64,15 @@ for ($i=0;$i<80;$i++) {
 
             echo '<br><br><br>','Si desea volver a iniciar sesión pulse el siguiente botón: ';
             
-            echo '<a href="login.php"><button>Login</button></a>';
+            echo '<a href="inicio.php"><button>Login</button></a>';
 
         }
+
+    } else {
+        echo "Vuelva a iniciar sesión para acceder a esta página.";
+        echo '<a href="inicio.php"><button>Iniciar Sesión</button></a>';
+    }
+
     ?>
 
 </HTML>

@@ -41,4 +41,4 @@ if (isset($_POST['registro'])) {
     </div>
     <button type="submit" name="registro" value="register">Registrarse</button>
 </form>
-<button onclick="location.href='./login.php'">Iniciar sesión</button>
+<button onclick="location.href='./inicio.php'">Iniciar sesión</button>
